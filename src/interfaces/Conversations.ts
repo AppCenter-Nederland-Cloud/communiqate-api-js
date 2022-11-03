@@ -1,9 +1,9 @@
-export interface CheckAutoPilotActiveResponse {
-  active: boolean;
+export interface CheckAutoPilotEnabledResponse {
+  enabled: boolean;
 }
 
 export interface ToggleAutoPilotRequest {
-  active?: boolean;
+  enabled?: boolean;
 }
 
 export interface AssignOperatorRequest {

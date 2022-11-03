@@ -2,7 +2,7 @@ import { BaseResource } from "./BaseResource";
 import { ApiResponse } from "../interfaces/Response";
 import {
   AssignOperatorRequest,
-  CheckAutoPilotActiveResponse,
+  CheckAutoPilotEnabledResponse,
   DeleteMessageRequest,
   SendMessageRequest,
   ToggleAutoPilotRequest,
@@ -12,12 +12,12 @@ import { Message } from "../interfaces/Messages";
 
 export class Conversations extends BaseResource {
   /**
-   * Check if the autopilot is currently active for the conversation
+   * Check if the autopilot is currently enabled for the conversation
    * @param phoneOrConversationId
    */
-  public async checkAutoPilotActive(
+  public async checkAutoPilotEnabled(
     phoneOrConversationId: string
-  ): Promise<ApiResponse<CheckAutoPilotActiveResponse>> {
+  ): Promise<ApiResponse<CheckAutoPilotEnabledResponse>> {
     return this.api
       .getAxiosClient()
       .get(`/conversations/${phoneOrConversationId}/autopilot`);

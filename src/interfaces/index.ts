@@ -1,6 +1,5 @@
+export * from "./Conversations";
+export * from "./Messages";
+export * from "./TemplateMessage";
 
-export * from "./Conversations"
-export * from "./Messages"
-export * from "./TemplateMessage"
-
-export * from "./Response"
+export * from "./Response";
