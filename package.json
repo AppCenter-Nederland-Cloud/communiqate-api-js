@@ -1,6 +1,6 @@
 {
   "name": "@acn-cloud/communiqate-api-js",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -39,6 +39,6 @@
     "@typescript-eslint/parser": "^5.31.0"
   },
   "dependencies": {
-    "axios": "^1.1.3"
+    "axios": "^0.27.2"
   }
 }
