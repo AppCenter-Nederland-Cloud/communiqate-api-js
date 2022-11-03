@@ -1,6 +1,6 @@
 {
   "name": "@acn-cloud/communiqate-api-js",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -9,11 +9,16 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "prettier": "prettier --write \"{src,tests,example/src}/**/*.{js,ts,jsx,tsx}\"",
     "lint": "eslint \"{**/*,*}.{js,ts,jsx,tsx}\"",
-    "prepublishOnly": "npm run test && npm run prettier && npm run lint && npm run build"
+    "prepublishOnly": "npm run prettier && npm run lint && npm run build"
   },
   "keywords": [],
   "author": "Niek Poorthuis",
   "license": "ISC",
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
   "description": "JS API wrapper for CommuniQate",
   "bugs": {
     "url": "https://github.com/AppCenter-Nederland-Cloud/communiqate-api-js/issues"
@@ -26,7 +31,12 @@
   "devDependencies": {
     "@types/node": "^18.11.0",
     "typescript": "^4.8.4",
-    "prettier": "^2.7.1"
+    "prettier": "^2.7.1",
+    "eslint": "^8.20.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "@typescript-eslint/eslint-plugin": "^5.31.0",
+    "@typescript-eslint/parser": "^5.31.0"
   },
   "dependencies": {
     "axios": "^1.1.3"
