@@ -92,7 +92,7 @@ export class Conversations extends BaseResource {
   ): Promise<ApiResponse<any>> {
     return this.api
       .getAxiosClient()
-      .delete(`/conversations/${phoneOrConversationId}/autopilot`, {
+      .delete(`/conversations/${phoneOrConversationId}/messages`, {
         params: data,
       });
   }
