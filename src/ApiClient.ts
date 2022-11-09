@@ -1,6 +1,7 @@
 import axios, { AxiosInstance, AxiosResponse } from "axios";
-import { Errors } from "./interfaces/Response";
+import { Errors } from "./interfaces";
 import { Conversations } from "./resources/Conversations";
+import { Contacts } from "./resources/Contacts";
 
 export class ApiClient {
   protected readonly endpoint: string = "https://api.communiqate.nl/api/v1";
@@ -11,23 +12,28 @@ export class ApiClient {
    * Construct the API client
    * @param apiKey
    * @param endpoint
+   * @param client
    */
-  constructor(apiKey: string, endpoint?: string) {
+  constructor(apiKey: string, endpoint?: string, client?: AxiosInstance) {
     this.apiKey = apiKey;
 
     if (endpoint) {
       this.endpoint = endpoint;
     }
 
-    this.axiosClient = axios.create({
-      baseURL: this.endpoint,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: apiKey.startsWith("Bearer")
-          ? apiKey
-          : `Bearer ${apiKey}`,
-      },
-    });
+    if (client) {
+      this.axiosClient = client;
+    } else {
+      this.axiosClient = axios.create({
+        baseURL: this.endpoint,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: apiKey.startsWith("Bearer")
+            ? apiKey
+            : `Bearer ${apiKey}`,
+        },
+      });
+    }
 
     this.registerAxiosResponseInterceptor();
   }
@@ -52,7 +58,6 @@ export class ApiClient {
         };
       },
       (error: any) => {
-        console.error(error);
         if (error.response) {
           const response = error.response;
           const errorObject: Errors = {};
@@ -113,5 +118,12 @@ export class ApiClient {
    */
   public conversations() {
     return new Conversations(this);
+  }
+
+  /**
+   * Contacts resource
+   */
+  public contacts() {
+    return new Contacts(this);
   }
 }

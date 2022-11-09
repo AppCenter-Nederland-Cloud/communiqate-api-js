@@ -1,14 +1,14 @@
 import { BaseResource } from "./BaseResource";
-import { ApiResponse } from "../interfaces/Response";
 import {
+  ApiResponse,
   AssignOperatorRequest,
   CheckAutoPilotEnabledResponse,
   DeleteMessageRequest,
+  Message,
   SendMessageRequest,
   ToggleAutoPilotRequest,
   UpdateMessageRequest,
-} from "../interfaces/Conversations";
-import { Message } from "../interfaces/Messages";
+} from "../interfaces";
 
 export class Conversations extends BaseResource {
   /**
