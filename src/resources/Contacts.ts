@@ -46,4 +46,16 @@ export class Contacts extends BaseResource {
       .getAxiosClient()
       .delete(`/contacts/${phoneOrContactId}/attributes`, { params: data });
   }
+
+  /**
+   * Unsubscribe the contact.
+   * @param phoneOrContactId
+   */
+  public async unsubscribeContact(
+    phoneOrContactId: string
+  ): Promise<ApiResponse<any>> {
+    return this.api
+      .getAxiosClient()
+      .post(`/contacts/${phoneOrContactId}/unsubscribe`);
+  }
 }
