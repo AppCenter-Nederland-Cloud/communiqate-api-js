@@ -1,9 +1,11 @@
 import { BaseResource } from "./BaseResource";
 import {
   ApiResponse,
+  Contact,
   ContactAttributeValue,
   SetContactAttributeRequest,
   UnsetContactAttributeRequest,
+  UpdateContact,
 } from "../interfaces";
 
 export class Contacts extends BaseResource {
@@ -57,5 +59,27 @@ export class Contacts extends BaseResource {
     return this.api
       .getAxiosClient()
       .post(`/contacts/${phoneOrContactId}/unsubscribe`);
+  }
+
+  /**
+   * Get the contact.
+   * @param phoneOrContactId
+   */
+  public async get(phoneOrContactId: string): Promise<ApiResponse<Contact>> {
+    return this.api.getAxiosClient().get(`/contacts/${phoneOrContactId}`);
+  }
+
+  /**
+   * Update the contact.
+   * @param phoneOrContactId
+   * @param data
+   */
+  public async update(
+    phoneOrContactId: string,
+    data: UpdateContact
+  ): Promise<ApiResponse<Contact>> {
+    return this.api
+      .getAxiosClient()
+      .patch(`/contacts/${phoneOrContactId}`, data);
   }
 }
