@@ -18,6 +18,10 @@ export interface SendMessageRequest {
     body?: string[];
     buttons?: string[];
   };
+  contact?: {
+    first_name?: string;
+    last_name?: string;
+  };
 }
 
 export interface UpdateMessageRequest {
