@@ -12,8 +12,9 @@ export interface Contact {
 }
 
 export interface UpdateContact {
-  first_name: string;
-  last_name: string;
-  country: string;
-  email: string | null;
+  first_name?: string;
+  last_name?: string;
+  country?: string;
+  subscribed?: boolean;
+  email?: string | null;
 }
