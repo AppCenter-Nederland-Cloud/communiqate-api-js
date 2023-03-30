@@ -7,7 +7,7 @@ ___
 This is an example of how to send a template message with the CommuniQate api.
 
 ```javascript
-import { ApiClient } from 'communiqate-api-js';
+const { ApiClient } = require('@acn-cloud/communiqate-api-js');
 
 const apiKey = 'API_KEY_HERE';
 
@@ -43,7 +43,7 @@ ___
 This is an example of how to cancel a sent template message with the CommuniQate api.
 
 ```javascript
-import { ApiClient } from 'communiqate-api-js';
+const { ApiClient } = require('@acn-cloud/communiqate-api-js');
 
 const apiKey = 'API_KEY_HERE';
 
@@ -71,7 +71,7 @@ ___
 This is an example of how to update a sent template message with the CommuniQate api. Only the scheduled_at variable can be updated.
 
 ```javascript
-import { ApiClient } from 'communiqate-api-js';
+const { ApiClient } = require('@acn-cloud/communiqate-api-js');
 
 const apiKey = 'API_KEY_HERE';
 
@@ -116,3 +116,13 @@ For dates please use a ISO-8601 string. Send all strings in UTC time +0. For exa
 Please send: ```2023-03-30T09:33:04Z```
 
 Do not send: ```2023-03-30T09:33:04+02:00```
+
+____
+
+Route: ```https://api.communiqate.nl/api/v1 ```
+
+**Message Route**
+```https://api.communiqate.nl/api/v1/conversations/+31612345678/messages ```
+
+Allowed Methods:
+POST / PATCH / DELETE
