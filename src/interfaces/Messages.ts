@@ -1,42 +1,69 @@
-import { TemplateMessage } from "./TemplateMessage";
+import { Account } from "./Conversations";
+import { ConsentType, Contact, LanguageType } from "./Contacts";
 
-export enum ConversationSenderType {
-  BOT = "bot",
-  CONTACT = "contact",
-  OPERATOR = "operator",
+export type MessageDirectionType = "INBOUND" | "OUTBOUND";
+export type MessageStatusType =
+  | "SCHEDULED"
+  | "QUEUED"
+  | "PENDING"
+  | "SENT"
+  | "READ"
+  | "DELIVERED"
+  | "RECEIVED"
+  | "DELETED"
+  | "UNKNOWN";
+
+export type MessageContentInteractiveType =
+  | "list"
+  | "button"
+  | "product"
+  | "product_list"
+  | "list_reply"
+  | "button_reply";
+
+export type SendMessageInteractiveContentHeaderType =
+  | "text"
+  | "video"
+  | "image"
+  | "document";
+
+export interface Message {
+  id: string;
+  organization_id: string;
+  conversation_id?: string;
+  operator_id?: string;
+  operator?: Account;
+  contact_id: string;
+  contact: Contact;
+  sender_name: string;
+  reply_to_message_id?: string;
+  reply_to_message?: Message;
+  direction: MessageDirectionType;
+  status: MessageStatusType;
+  metadata: Record<any, any>;
+  error?: string;
+  scheduled_at?: string; //date
+  queued_at?: string; //date
+  sent_at?: string; //date
+  delivered_at?: string; //date
+  deleted_at?: string; //date
+  received_at?: string; //date
+  read_at?: string; //date
+  created_at: string; //date
+  updated_at: string; //date
+  text?: MessageContentText;
+  image?: MessageContentMedia;
+  video?: MessageContentMedia;
+  audio?: MessageContentMedia;
+  file?: MessageContentMedia;
+  sticker?: MessageContentMedia;
+  location?: MessageContentLocation;
+  template?: MessageContentTemplate;
+  interactive?: MessageContentInteractive;
 }
 
-export enum MessageType {
-  TEXT = "text",
-  IMAGE = "image",
-  VIDEO = "video",
-  AUDIO = "audio",
-  FILE = "file",
-  LOCATION = "location",
-  EVENT = "event",
-  RICH = "rich",
-  MENU = "menu",
-  BUTTONS = "buttons",
-  LINK = "link",
-  HSM = "hsm",
-  WHATSTAPP_INTERACTIVE = "interactive",
-  WHATSTAPP_STICKER = "whatsappSticker",
-  WHATSTAPP_ORDER = "whatsappOrder",
-  WHATSTAPP_TEXT = "whatsappText",
-}
-
-export enum MessageStatus {
-  ACCEPTED = "accepted",
-  PENDING = "pending",
-  SENT = "sent",
-  REJECTED = "rejected",
-  FAILED = "failed",
-  READ = "read",
-  RECEIVED = "received",
-  DELETED = "deleted",
-  UNKNOWN = "unknown",
-  TRANSMITTED = "transmitted",
-  DELIVERED = "delivered",
+export interface MessageContentText {
+  text: string;
 }
 
 export interface MessageContentMedia {
@@ -49,200 +76,89 @@ export interface MessageContentLocation {
   longitude: string;
 }
 
-export interface MessageContentHSMComponentMessageParamMedia {
-  url: string;
-}
-
-export enum MessageContentHSMComponentMessageParamType {
-  IMAGE = "image",
-  DOCUMENT = "document",
-  VIDEO = "video",
-  TEXT = "text",
-  CURRENCY = "currency",
-  DATE_TIME = "date_time",
-  PAYLOAD = "payload",
-}
-
-export interface MessageContentHSMComponentMessageParam {
-  type: MessageContentHSMComponentMessageParamType;
-  text?: string;
-  payload?: string;
-  currency?: {
-    code: string;
-    amount: number;
-  };
-  dateTime?: string;
-  document?: MessageContentHSMComponentMessageParamMedia;
-  image?: MessageContentHSMComponentMessageParamMedia;
-  video?: MessageContentHSMComponentMessageParamMedia;
-}
-
-export enum MessageContentHSMComponentType {
-  HEADER = "header",
-  BODY = "body",
-  BUTTON = "button",
-}
-
-export enum MessageContentHSMComponentSubType {
-  QUICK_REPLY = "quick_reply",
-  URL = "url",
-}
-
-export interface MessageContentHSMComponent {
-  type: MessageContentHSMComponentType;
-  sub_type: MessageContentHSMComponentSubType;
-  index: number;
-  parameters: MessageContentHSMComponentMessageParam[];
-}
-
-export interface MessageContentHSM {
+export interface MessageContentTemplate {
+  template_variant_version_id: string;
   namespace: string;
   template_name: string;
-  template_message: TemplateMessage;
-  template_message_id: string;
-  language: {
-    policy: string;
-    code: string;
-  };
-  params: {
-    default: string;
-    currency: {
-      code: string;
-      amount: number;
-    };
-    dateTime: string;
-  };
-  components: MessageContentHSMComponent[];
-}
-
-export enum WhatsappInteractiveType {
-  LIST = "list",
-  LIST_REPLY = "list_reply",
-  BUTTON = "button",
-  PRODUCT = "product",
-  PRODUCT_LIST = "product_list",
-  BUTTON_REPLY = "button_reply",
-}
-
-export interface WhatsAppInteractiveMedia {
-  url: string;
-  caption?: string;
-}
-
-export enum WhatsAppInteractiveHeaderType {
-  TEXT = "text",
-  VIDEO = "video",
-  IMAGE = "image",
-  DOCUMENT = "document",
-}
-
-export interface WhatsAppInteractiveHeader {
-  type: WhatsAppInteractiveHeaderType;
-  text?: string;
-  video?: WhatsAppInteractiveMedia;
-  image?: WhatsAppInteractiveMedia;
-  document?: WhatsAppInteractiveMedia;
-}
-
-export interface WhatsAppInteractiveBody {
-  text: string;
-}
-
-export interface WhatAppInteractiveSectionRow {
-  id?: string;
-  title?: string;
-  description?: string;
-}
-
-export interface WhatAppInteractiveProduct {
-  product_retailer_id: string;
-}
-
-export interface WhatsAppInteractiveSection {
-  title: string;
-  rows: WhatAppInteractiveSectionRow[];
-  product_items?: WhatAppInteractiveProduct[];
-}
-
-export interface WhatAppInteractiveButton {
-  id: string;
-  type: string;
-  title: string;
-  image_url?: string;
-}
-
-export interface WhatsAppInteractiveAction {
-  catalog_id?: string;
-  product_retailer_id?: string;
-  sections?: WhatsAppInteractiveSection[];
-  button?: string;
-  buttons?: WhatAppInteractiveButton[];
-}
-
-export interface WhatAppInteractiveFooter {
-  text: string;
-}
-
-export interface WhatAppInteractiveReply {
-  id: string;
-  text: string;
-  description?: string;
+  language: string[];
+  params: any[];
+  components: any[];
 }
 
 export interface MessageContentInteractive {
-  type: WhatsappInteractiveType;
-  header?: WhatsAppInteractiveHeader;
-  body?: WhatsAppInteractiveBody;
-  action?: WhatsAppInteractiveAction;
-  footer?: WhatAppInteractiveFooter;
-  reply?: WhatAppInteractiveReply;
+  type: MessageContentInteractiveType;
+  header?: any;
+  footer?: any;
+  body: any[];
+  action: any;
 }
 
-export interface MessageContentWhatsappOrder {
-  catalog_id: string;
-  product_items: any[];
-  text: string;
+export type SendMessageType =
+  | "TEXT"
+  | "IMAGE"
+  | "VIDEO"
+  | "FILE"
+  | "AUDIO"
+  | "TEMPLATE"
+  | "INTERACTIVE";
+
+export interface SendMessage {
+  type: SendMessageType;
+  reply_message_id?: string;
+  operator_id?: string;
+  text?: string; //required if type TEXT
+  image?: MessageContentMedia; //required if type IMAGE
+  video?: MessageContentMedia; //required if type VIDEO
+  file?: MessageContentMedia; //required if type FILE
+  audio?: MessageContentMedia; //required if type AUDIO
+  template?: SendMessageTemplateContent; //required if type TEMPLATE
+  interactive?: SendMessageInteractiveContent; //required if type INTERACTIVE
+  prebuilt_message_id?: string;
+  schedule_date?: string;
+  contact?: SendMessageCreateContact;
 }
 
-export interface MessageContentWhatsappSticker {
-  link: string;
+export interface SendMessageCreateContact {
+  first_name?: string;
+  last_name?: string;
+  country?: string; // must be a ISO3166-alpha2 country code
+  language?: LanguageType;
+  email?: string;
+  marketing_consent?: ConsentType;
 }
 
-export interface MessageContentWhatsappText {
-  text: any;
-  context: any;
+export interface SendMessageTemplateContent {
+  template_variant_version_id: string;
+  body_params?: string[];
+  button_param?: string;
+  header_param?: string;
 }
 
-export type MessageContent =
-  | string
-  | MessageContentMedia
-  | MessageContentLocation
-  | MessageContentHSM
-  | MessageContentInteractive
-  | MessageContentWhatsappOrder
-  | MessageContentWhatsappSticker
-  | MessageContentWhatsappText;
-
-export enum MessageDirection {
-  SENT = "sent",
-  RECEIVED = "received",
+export interface SendMessageInteractiveContent {
+  body: string;
+  footer?: string;
+  header?: SendMessageInteractiveContentHeader;
+  action?: SendMessageInteractiveContentAction;
 }
 
-export interface Message {
-  id: string;
-  conversation_id: string;
-  type: MessageType;
-  status: MessageStatus;
-  content: MessageContent;
-  sender?: {
-    id: string;
-    name: string;
-    avatar?: string;
-  };
-  direction: MessageDirection;
-  sender_type: ConversationSenderType;
-  error?: string;
-  created_at: string;
-  scheduled_at: string;
-  sent_at?: string;
+export interface SendMessageInteractiveContentHeader {
+  text?: string;
+  type: SendMessageInteractiveContentHeaderType;
+  url?: string;
+}
+
+export interface SendMessageInteractiveContentAction {
+  buttons?: string[]; //cannot be combined with section_button_title or sections
+  section_button_title?: string; //required if sections are set. Cannot be combined with buttons
+  sections?: SendMessageInteractiveContentActionSection[];
+}
+
+export interface SendMessageInteractiveContentActionSection {
+  title?: string;
+  rows: SendMessageInteractiveContentActionSectionRow[];
+}
+
+export interface SendMessageInteractiveContentActionSectionRow {
+  title: string;
+  description?: string;
 }

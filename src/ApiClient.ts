@@ -1,21 +1,31 @@
 import axios, { AxiosInstance, AxiosResponse } from "axios";
 import { Errors } from "./interfaces";
-import { Conversations } from "./resources/Conversations";
+import { ContactAttributes } from "./resources/ContactAttributes";
 import { Contacts } from "./resources/Contacts";
+import { Conversations } from "./resources/Conversations";
+import { Messages } from "./resources/Messages";
 
 export class ApiClient {
-  protected readonly endpoint: string = "https://api.communiqate.nl/api/v1";
+  protected readonly endpoint: string = "https://api.acn-cloud.nl/api/v1";
   protected readonly apiKey: string;
+  protected readonly organizationId: string;
   protected readonly axiosClient: AxiosInstance;
 
   /**
    * Construct the API client
    * @param apiKey
+   * @param organizationId
    * @param endpoint
    * @param client
    */
-  constructor(apiKey: string, endpoint?: string, client?: AxiosInstance) {
+  constructor(
+    apiKey: string,
+    organizationId: string,
+    endpoint?: string,
+    client?: AxiosInstance
+  ) {
     this.apiKey = apiKey;
+    this.organizationId = organizationId;
 
     if (endpoint) {
       this.endpoint = endpoint;
@@ -25,7 +35,7 @@ export class ApiClient {
       this.axiosClient = client;
     } else {
       this.axiosClient = axios.create({
-        baseURL: this.endpoint,
+        baseURL: `${this.endpoint}/${this.organizationId}/communiqate`,
         headers: {
           "Content-Type": "application/json",
           Authorization: apiKey.startsWith("Bearer")
@@ -107,23 +117,32 @@ export class ApiClient {
   }
 
   /**
+   * Get the API key
+   */
+  public getOrganizationId(): string {
+    return this.organizationId;
+  }
+
+  /**
    * Get the axios client instance
    */
   public getAxiosClient(): AxiosInstance {
     return this.axiosClient;
   }
 
-  /**
-   * Conversations resource
-   */
+  public contacts() {
+    return new Contacts(this);
+  }
+
+  public contactAttributes() {
+    return new ContactAttributes(this);
+  }
+
   public conversations() {
     return new Conversations(this);
   }
 
-  /**
-   * Contacts resource
-   */
-  public contacts() {
-    return new Contacts(this);
+  public messages() {
+    return new Messages(this);
   }
 }
